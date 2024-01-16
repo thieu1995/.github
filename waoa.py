@@ -92,36 +92,3 @@ class OriginalWaOA(Optimizer):
             if self.compare_target(agent.target, self.pop[idx].target, self.problem.minmax):
                 self.pop[idx] = agent
 
-!pip install niapy
-
-import numpy as np
-from mealpy import FloatVar
-from niapy.task import Task
-task = Task('Rastrigin', dimension=30, lower=-5.12, upper=5.12, max_iters=5000)
-def objective_function(solution):
-    return task.eval(solution)
-
-problem_dict = {
-"bounds": FloatVar(lb=(-10.,) * 30, ub=(10.,) * 30, name="delta"),
-"minmax": "max",
-"obj_func": objective_function
- }
-
-model = OriginalWaOA(epoch=100, pop_size=50)
-g_best = model.solve(problem_dict)
-print(f"Solution: {g_best.solution}, Fitness: {g_best.target.fitness}")
-print(f"Solution: {model.g_best.solution}, Fitness: {model.g_best.target.fitness}")
-
-model.history.save_global_objectives_chart(filename="hello/goc")
-model.history.save_local_objectives_chart(filename="hello/loc")
-
-model.history.save_global_best_fitness_chart(filename="hello/gbfc")
-model.history.save_local_best_fitness_chart(filename="hello/lbfc")
-
-model.history.save_runtime_chart(filename="hello/rtc")
-
-model.history.save_exploration_exploitation_chart(filename="hello/eec")
-
-model.history.save_diversity_chart(filename="hello/dc")
-
-model.history.save_trajectory_chart(list_agent_idx=[3, 5, 6, 7,], selected_dimensions=[3, 4], filename="hello/tc")
